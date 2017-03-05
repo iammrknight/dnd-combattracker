@@ -1,0 +1,93 @@
+<!--
+
+Copyright 2017 Matthew Knight
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+-->
+
+<!DOCTYPE html>
+<html lang="en" data-ng-app="combatApp">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Combat Manager</title>
+
+        <script src="lib/angularjs/1.6.2/angular.js"></script>
+        <script src="js/combatController.js"></script>
+
+        <link href="lib/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/combatController.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container" data-ng-controller="combatController as combat">
+            <div class="page-header">
+                <h1>D&D Combat Manager</h1>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 col-md-6">
+                    <div class="container-fluid">
+                        <div style="margin-bottom: 2em;">
+                            <h2 style="display:inline;">Initiative Tracker</h2>
+                            <button data-ng-click="combat.sortOrder()" type="button" class="btn btn-primary btn-xs" style="margin-left:2em;vertical-align:text-bottom;" title="Sort combat order">
+                                <span class="glyphicon glyphicon-sort" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                        <div class="row" style="margin-bottom: 1em;">
+                            <div class="col-xs-5 col-md-5">
+                                <strong>Character</strong>
+                            </div>
+                            <div class="col-xs-3 col-md-3">
+                                <strong title="Should be **total** roll value of roll + modifier, not simply the d20 roll">Initiative</strong>
+                            </div>
+                            <div class="col-xs-2 col-md-2">
+                                <strong title="Used as a tie breaker when total roll is a tie">Modifier</strong>
+                            </div>
+                        </div>
+                        <div data-ng-repeat="pc in combat.pcs">
+                            <div class="row">
+                                <div class="col-xs-5 col-md-5">
+                                    <input type="text" data-ng-if="pc.editable" class="form-control" style="margin-bottom:16px;" data-ng-model="pc.name" data-ng-blur="pc.editable = false;">
+                                    <p class="lead" style="cursor:default;" data-ng-if="!pc.editable" data-ng-class="pc.selected ? 'highlight' : ''"  data-ng-click="combat.selectPc(pc)">&nbsp; {{pc.name}}</p>
+                                </div>
+                                <div class="col-xs-3 col-md-3">
+                                    <input type="text" class="form-control" data-ng-model="pc.initiative">
+                                </div>
+                                <div class="col-xs-2 col-md-2">
+                                    <input type="text" class="form-control" data-ng-model="pc.dexMod">
+                                </div>
+                                <div class="col-xs-1 col-md-1">
+                                    <button data-ng-click="combat.deletePc(pc)" type="button" class="btn btn-danger btn-xs" style="margin-left:2em;vertical-align:text-bottom;" title="Delete character">
+                                        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <button data-ng-click="combat.addPc()" type="button" class="btn btn-primary btn-xs" title="Add character">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-6">
+                    <div class="container-fluid">
+                        <h2>Monster Tracker</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
