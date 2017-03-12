@@ -42,6 +42,27 @@ angular.module('combatApp', []).controller('combatController', ['$filter', funct
             }
         ];
 
+        combat.monsters = [
+            {
+                "name": "Gerblin",
+                "current" : 4,
+                "max": 8,
+                "ac": 15
+            },
+            {
+                "name": "Skellington",
+                "current" : 12,
+                "max": 16,
+                "ac": 13
+            },
+            {
+                "name": "Elder Red Dragon",
+                "current" : 100,
+                "max": 156,
+                "ac": 18
+            }
+        ];
+
         combat.sortOrder = function() {
             // Sort according to initiative and dex mod
             combat.pcs.sort(function(a, b) {
@@ -73,12 +94,30 @@ angular.module('combatApp', []).controller('combatController', ['$filter', funct
             });
         };
 
+        combat.deleteMonster = function(selectMon) {
+            // Filter out selectMon from list
+            combat.monsters = combat.monsters.filter(function(mon) {
+                return mon !== selectMon;
+            });
+        };
+
         combat.addPc = function() {
             // Add an editable entry to pc list
             combat.pcs.push(
                 {
                     "initiative": 0,
                     "dexMod": 0,
+                    "editable": true
+                }
+            );
+        };
+
+        combat.addMonster = function() {
+            // Add an editable entry to monsters list
+            combat.monsters.push(
+                {
+                    "current": 0,
+                    "ac": 10,
                     "editable": true
                 }
             );

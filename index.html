@@ -25,10 +25,11 @@ limitations under the License.
 
         <title>Combat Manager</title>
 
-        <script src="lib/angularjs/1.6.2/angular.js"></script>
+        <script src="../lib/angularjs/1.6.2/angular.js"></script>
         <script src="js/combatController.js"></script>
 
-        <link href="lib/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <link href="../lib/normalize/5.0.0/normalize.min.css" rel="stylesheet">
+        <link href="../lib/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
         <link href="css/combatController.css" rel="stylesheet">
     </head>
     <body>
@@ -37,12 +38,12 @@ limitations under the License.
                 <h1>D&D Combat Manager</h1>
             </div>
             <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-6">
+                <div class="col-xs-12 col-sm-12 col-md-6" style="margin-bottom:2em;">
                     <div class="container-fluid">
                         <div style="margin-bottom: 2em;">
                             <h2 style="display:inline;">Initiative Tracker</h2>
                             <button data-ng-click="combat.sortOrder()" type="button" class="btn btn-primary btn-xs" style="margin-left:2em;vertical-align:text-bottom;" title="Sort combat order">
-                                <span class="glyphicon glyphicon-sort" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-sort" aria-hidden="true"></span> Sort
                             </button>
                         </div>
                         <div class="row" style="margin-bottom: 1em;">
@@ -60,7 +61,7 @@ limitations under the License.
                             <div class="row">
                                 <div class="col-xs-5 col-md-5">
                                     <input type="text" data-ng-if="pc.editable" class="form-control" style="margin-bottom:16px;" data-ng-model="pc.name" data-ng-blur="pc.editable = false;">
-                                    <p class="lead" style="cursor:default;" data-ng-if="!pc.editable" data-ng-class="pc.selected ? 'highlight' : ''"  data-ng-click="combat.selectPc(pc)">&nbsp; {{pc.name}}</p>
+                                    <p class="lead" style="cursor:default;padding-left:8px;" data-ng-if="!pc.editable" data-ng-class="pc.selected ? 'highlight' : ''"  data-ng-click="combat.selectPc(pc)">{{pc.name}}</p>
                                 </div>
                                 <div class="col-xs-3 col-md-3">
                                     <input type="text" class="form-control" data-ng-model="pc.initiative">
@@ -69,22 +70,65 @@ limitations under the License.
                                     <input type="text" class="form-control" data-ng-model="pc.dexMod">
                                 </div>
                                 <div class="col-xs-1 col-md-1">
-                                    <button data-ng-click="combat.deletePc(pc)" type="button" class="btn btn-danger btn-xs" style="margin-left:2em;vertical-align:text-bottom;" title="Delete character">
+                                    <button data-ng-click="combat.deletePc(pc)" type="button" class="btn btn-danger btn-xs" style="margin-left:2em;vertical-align:sub;" title="Delete character">
                                         <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
                                     </button>
                                 </div>
                             </div>
                         </div>
                         <div>
-                            <button data-ng-click="combat.addPc()" type="button" class="btn btn-primary btn-xs" title="Add character">
-                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                            <button data-ng-click="combat.addPc()" type="button" class="btn btn-primary btn-xs" style="margin-left:8px;" title="Add character">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
                             </button>
                         </div>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-6">
                     <div class="container-fluid">
-                        <h2>Monster Tracker</h2>
+                        <div style="margin-bottom: 2em;">
+                            <h2 style="display:inline;">Monster Tracker</h2>
+                        </div>
+                        <div class="row" style="margin-bottom: 1em;">
+                            <div class="col-xs-5 col-md-5">
+                                <strong>Monster</strong>
+                            </div>
+                            <div class="col-xs-3 col-md-3">
+                                <strong>Hit Points</strong>
+                            </div>
+                            <div class="col-xs-2 col-md-2">
+                                <strong>AC</strong>
+                            </div>
+                        </div>
+                        <div data-ng-repeat="mon in combat.monsters">
+                            <div class="row">
+                                <div class="col-xs-5 col-md-5">
+                                    <input type="text" data-ng-if="mon.editable" class="form-control" style="margin-bottom:16px;" data-ng-model="mon.name">
+                                    <p class="lead" style="cursor:default;padding-left:8px;" data-ng-if="!mon.editable">{{mon.name}}</p>
+                                </div>
+                                <div class="col-xs-3 col-md-3">
+                                    <input type="text" class="form-control" style="display:inline;width:45%;" data-ng-model="mon.current">
+                                    <span>/</span>
+                                    <input type="text" data-ng-if="mon.editable" class="form-control" style="display:inline;width:40%;margin-bottom:16px;" data-ng-model="mon.max">
+                                    <span data-ng-if="!mon.editable">{{mon.max}}</span>
+                                </div>
+                                <div class="col-xs-2 col-md-2">
+                                    <input type="text" class="form-control" data-ng-model="mon.ac">
+                                </div>
+                                <div class="col-xs-1 col-md-1">
+                                    <button data-ng-if="mon.editable" data-ng-click="mon.editable = false;" type="button" class="btn btn-info btn-xs" style="margin-left:2em;vertical-align:sub;" title="Save monster">
+                                        <span class="glyphicon glyphicon-save" aria-hidden="true"></span>
+                                    </button>
+                                    <button data-ng-if="!mon.editable" data-ng-click="combat.deleteMonster(mon)" type="button" class="btn btn-danger btn-xs" style="margin-left:2em;vertical-align:sub;" title="Delete monster">
+                                        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <button data-ng-click="combat.addMonster()" type="button" class="btn btn-primary btn-xs" style="margin-left:8px;" title="Add monster">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
